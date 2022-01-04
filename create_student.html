@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jquery Form Validation</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<!-- jquery validation plugin //-->
+	<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js">
+	</script>
+	<script type="text/javascript" src="validation.js"></script>
+</head>
+<body>
+<div class="container">
+	<h2>Simple jQuery Contact Form With Validation</h2>
+	<h3><a href="index.php">View List</a></h3>
+	<hr>
+	<!-- Required Div Starts Here -->
+	<form id="form" action="register.php" name="form" method="post">
+		<p id="returnmessage"></p>
+		<label><b>Name: <span id="id">*</b></span></label> <br>
+		<input type="text" id="name" placeholder="Name" name="name" style="text-transform: capitalize;" onchange="check_user();" /> <br> <br> <br> 
+		<label><b>Userame: <span>*</b></span></label> <br>
+		<input type="text" id="user_name" placeholder="Username" name="user_name"/> <br> <br>  <br> 
+		<label><b>Email: <span>*</b></span></label> <br>
+		<input type="email" id="email" placeholder="Email" name="email"/> <br> <br> <br> 
+		<label><b>Phone No: <span>*</b></span></label> <br>
+		<input type="number" id="phone_number" placeholder="10 digit Mobile no." name="phone_number"/> <br> <br> <br> 
+		<label><b>Birth Date: <span>*</b></span></label> <br>
+		<input type="date" id="dob" placeholder="Birth Date" name="dob"/> <br> <br> <br>  
+		<label><b>Password: <span>*<b></span></label><br>
+		<input type="password" id="password" placeholder="Password" name="password"/> <br> <br> <br>
+		<input type="submit" name="register" id="register" value="Register">
+		<input type="reset" name="cancel" id="cancel" value="Cancel">
+	</form>
+</div>
+<?php
+include "config.php";
+if (isset($_POST['register'])) {
+	# code...
+	$name=$_POST['name'];
+	// echo $name;
+	$user_name=$_POST['user_name'];
+	// echo $user_name;
+	$email=$_POST['email'];
+	// echo $email;
+	$phone_number=$_POST['phone_number'];
+	// echo $phone_number;
+	$dob=$_POST['dob'];
+	// echo $dob;
+	$password = md5($_POST['password']);
+	// echo $password;
+
+	// echo "INSERT INTO registration_form(name, user_name, email, phone_number, dob, password) VALUES ('$name','$user_name','$email',$phone_number,'$dob','$password')";
+	
+	$result = mysqli_query($mysqli,"INSERT INTO registration_form(name, user_name, email, phone_number, dob, password) VALUES ('$name','$user_name','$email',$phone_number,'$dob','$password')");
+}
+?>
+<script type="text/javascript">
+	function check_user(){
+		$.ajax({
+			type: "POST",
+			data: {
+				name: $('#name').val()
+			},
+			url: "check_user.php",
+			success: function(data){
+				if (data=='true') {
+					$('#id').text("This name is available");
+				}
+				else{
+					$('#id').text("This name is not available");
+				}
+			},
+			failure: function(){
+				alert('fail');
+			}
+			
+		});
+	}
+</script>
+</body>
+</html>

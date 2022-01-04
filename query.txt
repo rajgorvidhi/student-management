@@ -1,0 +1,3 @@
+CREATE TABLE `student_management`.`user` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `user_name` VARCHAR(30) NOT NULL , `password` VARCHAR(30) NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+
+ALTER TABLE `user` ADD `created` DATETIME NOT NULL AFTER `password`, ADD `updated` DATETIME NOT NULL AFTER `created`;
